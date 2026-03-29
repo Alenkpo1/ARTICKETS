@@ -1,10 +1,16 @@
+import os
+from dotenv import load_dotenv
 from flask import Flask, render_template, redirect, url_for, request, jsonify, flash, send_file
 from time import sleep
 from models import db, Usuarios, Eventos, Entradas, Carrito, Contacto
-app= Flask(__name__)
-port = 5000
-app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql+psycopg2://articket:articket@localhost:5432/artickets'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
+
+# Load environment variables from .env file (if exists)
+load_dotenv()
+
+app = Flask(__name__)
+port = int(os.getenv("PORT", 5000))
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql+psycopg2://articket:articket@localhost:5432/artickets')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 @app.route('/index')
 def index():
